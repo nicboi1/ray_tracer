@@ -15,9 +15,9 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
        //light
        vec3 l=world.lights.at(i)->position-intersection_point;
        //view
-       vec3 v=ray.direction;
+       vec3 v=-ray.direction;
        //reflect
-       vec3 r=((2*dot(v,normal))*normal-v).normalized();
+       vec3 r=((2*dot(l,normal))*normal-l).normalized();
         //R=K, L=intensity
        //emitted light->intensity
        for(int j=0;j<3;j++){
@@ -25,7 +25,7 @@ Shade_Surface(const Ray& ray,const vec3& intersection_point,
            double firMax=fmax(dot(normal,l.normalized()),0);
            double secMax=fmax(dot(v,r),0);
             //ca
-           color[j]+=world.ambient_color[j]*world.ambient_intensity+color_diffuse[j]*LDS*firMax+color_specular[j]*LDS*pow(secMax,specular_power);
+           color[j]+=color_ambient[j]*world.ambient_color[j]*world.ambient_intensity+color_diffuse[j]*LDS*firMax+color_specular[j]*LDS*pow(secMax,specular_power);
 
        }
 
